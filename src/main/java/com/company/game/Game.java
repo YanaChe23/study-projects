@@ -47,9 +47,9 @@ public class Game {
     public void chooseHittingPlayer() {
         if (players[0].getMoves() == 0 && players[1].getMoves() == 0) {
             movingPlayer = chooseWhoStarts();
-            int ind = 0;
-            if (Arrays.asList(players).indexOf(movingPlayer) == 0) ind = 1;
-            hitPlayer = players[ind];
+            int indOfHitPlayer = 0;
+            if (Arrays.asList(players).indexOf(movingPlayer) == 0) indOfHitPlayer = 1;
+            hitPlayer = players[indOfHitPlayer];
             System.out.println(movingPlayer.getName() + " makes the first move.");
         } else {
             Player temp = movingPlayer;
@@ -58,11 +58,12 @@ public class Game {
             System.out.println("Wait for " + movingPlayer.getName() + "'s move.");
         }
     }
+
     public void showGreetings() throws InterruptedException {
         System.out.println("Welcome to our 'Human vs Aliens' not PS game!" );
         Thread.sleep(2000);
-        System.out.println("Today are playing: " + players[0].getName() + " from " + players[0].getCreature()
-                + " race. Another player is " + players[1].getName() + " from " + players[1].getCreature());
+        System.out.println("Today are playing: " + players[0].getName() + " from " + players[0].getCreatureType()
+                + " race. Another player is " + players[1].getName() + " from " + players[1].getCreatureType());
         Thread.sleep(1000);
         System.out.println("Press any key to continue!");
     }
