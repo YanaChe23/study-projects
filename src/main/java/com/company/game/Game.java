@@ -45,7 +45,7 @@ public class Game {
          makeAMove(this.movingPlayer, this.hitPlayer);
          if ((this.players[0].getHealth() > 0 && this.players[1].getHealth() > 0 )) {
              Thread.sleep(2000);
-             System.out.println("Press any key to make next move.");
+             System.out.println("Press any key to make the next move.");
              scanner.hasNext();
          } else {
              System.out.println("Game is over! " + movingPlayer.getName() + " is a winner!");
@@ -88,7 +88,12 @@ public class Game {
         int gotDamage = hitPlayer.getDamage(damageFromHit);
         movingPlayer.setMoves();
         System.out.println(movingPlayer.getName() + " makes " + gotDamage + " of damage to " + hitPlayer.getName()
-                + ".\n " + hitPlayer.getName() + "'s health is " + hitPlayer.getHealth());
+                + ".");
+        if (hitPlayer.getHealth() > 0) {
+            System.out.println(hitPlayer.getName() + "'s health is " + hitPlayer.getHealth());
+        } else {
+            System.out.println(hitPlayer.getName() + " is dead.");
+        }
     }
 
     public int returnRandomInt(int  bound) {
