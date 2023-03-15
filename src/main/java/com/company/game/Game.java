@@ -2,39 +2,101 @@ package com.company.game;
 
 import com.company.players.Player;
 
+import com.company.players.Alien;
+import com.company.players.Human;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
 
+    enum Creatures {
+        alien,
+        human
+    }
     public Player[] players = new Player[2];
     public Player movingPlayer;
     public Player hitPlayer;
 
-    public Game(Player player1, Player player2) {
-        this.players[0] = player1;
-        this.players[1] = player2;
-    }
-
-    public void start(Scanner scanner) throws InterruptedException {
-        showGreetings();
-        scanner.hasNext();
+    public void start() throws Exception {
+        greetings(new Scanner(System.in));
+        System.out.println("It's time to give names to our players.");
+        players[0] = new Human(chooseName(Creatures.human));
+        players[1] = new Alien(chooseName(Creatures.alien));
         while(true) {
-            boolean test = play(new Scanner(System.in));
-            if (test == false) {
+            boolean ifStop = play(new Scanner(System.in));
+            if (ifStop == false) {
                 System.exit(0);
             }
         }
     }
 
-    public void showGreetings() throws InterruptedException {
-        System.out.println("Welcome to our 'Human vs Aliens' not PS game!" );
+    public void greetings(Scanner scanner) throws InterruptedException {
+        System.out.println("Welcome to our 'Human vs Aliens' any key game!");
         Thread.sleep(2000);
-        System.out.println("Today are playing: " + players[0].getName() + " from " + players[0].getCreatureType()
-                + " race. Another player is " + players[1].getName() + " from " + players[1].getCreatureType());
-        Thread.sleep(1000);
         System.out.println("Press any key to continue!");
+        scanner.hasNext();
+    }
+
+    public String chooseName(Creatures creatureType) {
+        String playerName = null;
+        int getNameCounter = 0;
+        while(playerName == null) {
+            getNameCounter++;
+            playerName = getNameFromUser(creatureType, new Scanner(System.in), getNameCounter);
+        }
+        return playerName;
+    }
+
+    public String getNameFromUser(Creatures creatureType, Scanner scanner, int counter) {
+        String name = null;
+        String defaultName = "Killer 3000";
+
+            switch(creatureType) {
+                case human:
+                    System.out.println("Type in a name for an human player:");
+                    defaultName = "Agent K";
+                    break;
+
+                case alien:
+                    System.out.println("Now, type in a name for a alien player:");
+                    defaultName = "Jack Jeebs";
+                    break;
+            }
+
+            String userInputName = scanner.nextLine();
+            if(userInputName.isEmpty()) {
+                System.out.println("You haven 't provided a name. If you want me to set up a default name, press 1." +
+                        " To offer a name  for  player, press  0");
+                while(true) {
+                    if (scanner.hasNextInt()) {
+                        int userInputNum = scanner.nextInt();
+                        if (userInputNum  == 0) {
+                            break;
+                        } else if (userInputNum == 1) {
+                            name = defaultName;
+                            break;
+                        } else {
+                            System.out.println("Press 1 if you want to set default name for the player. Press 0 if you" +
+                                    " want to type a name.");
+                        }
+                    }  else {
+                        System.out.println("Press 1 if you want to set default name for the player. Press 0 if you" +
+                                " want to type a name.");
+                    }
+                }
+            } else {
+                name = userInputName;
+            }
+
+            if(name == null && counter > 5) {
+                System.out.println("Choosing a name is not so easy. But no worries, I will use a default name for the " +
+                        "player to continue the game.");
+                name = defaultName;
+            }
+        System.out.println(name +  " is a name of the player from " + creatureType + "'s side." );
+        return name;
     }
 
     protected boolean play(Scanner scanner) throws InterruptedException {
@@ -48,7 +110,8 @@ public class Game {
              System.out.println("Press any key to make the next move.");
              scanner.hasNext();
          } else {
-             System.out.println("Game is over! " + movingPlayer.getName() + " is a winner!");
+             System.out.println("Game is over! " + movingPlayer.getName() + " is a winner! Hooray to "
+                     + movingPlayer.getCreatureType() + "s race!");
              return false;
          }
         return true;

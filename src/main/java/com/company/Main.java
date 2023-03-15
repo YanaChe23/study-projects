@@ -8,11 +8,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
-        Human human = new Human("Sam");
-        Alien  alien = new Alien("1@3344__2|");
-        Game newGame = new Game(human, alien);
-
-        newGame.start(new Scanner(System.in));
+    public static void main(String[] args) throws Exception {
+        Game newGame = new Game();
+        newGame.start();
     }
 }
