@@ -11,51 +11,20 @@ public class Game {
     public Player[] players = new Player[2];
     public Player movingPlayer;
     public Player hitPlayer;
-    private Scanner scanner;
-
 
     public Game(Player player1, Player player2) {
         this.players[0] = player1;
         this.players[1] = player2;
     }
 
-    public void start() throws InterruptedException {
+    public void start(Scanner scanner) throws InterruptedException {
         showGreetings();
-        scanner = new Scanner(System.in);
         scanner.hasNext();
-        play();
-    }
-
-
-    private void play() throws InterruptedException {
-        while (true) {
-            chooseHittingPlayer();
-            makeAMove(this.movingPlayer, this.hitPlayer);
-            if ((this.players[0].getHealth() > 0 && this.players[1].getHealth() > 0 )) {
-                Thread.sleep(2000);
-                System.out.println("Press any key to make next move.");
-                scanner = new Scanner(System.in);
-                scanner.hasNext();
-            } else {
-                System.out.println("Game is over! " + movingPlayer.getName() + " is a winner!");
+        while(true) {
+            boolean test = play(new Scanner(System.in));
+            if (test == false) {
                 System.exit(0);
             }
-        }
-
-    }
-
-    public void chooseHittingPlayer() {
-        if (players[0].getMoves() == 0 && players[1].getMoves() == 0) {
-            movingPlayer = chooseWhoStarts();
-            int indOfHitPlayer = 0;
-            if (Arrays.asList(players).indexOf(movingPlayer) == 0) indOfHitPlayer = 1;
-            hitPlayer = players[indOfHitPlayer];
-            System.out.println(movingPlayer.getName() + " makes the first move.");
-        } else {
-            Player temp = movingPlayer;
-            movingPlayer = hitPlayer;
-            hitPlayer = temp;
-            System.out.println("Wait for " + movingPlayer.getName() + "'s move.");
         }
     }
 
@@ -68,13 +37,40 @@ public class Game {
         System.out.println("Press any key to continue!");
     }
 
-    public Player chooseWhoStarts() {
-        int playerRandomIndex = new Random().nextInt(2);
-        return this.players[playerRandomIndex];
+    protected boolean play(Scanner scanner) throws InterruptedException {
+         /* The random index is used to choose the player who makes the first move
+         We pass it as a parameter to ensure that Junit tests can be run */
+         int randomInd  = returnRandomInt(2);
+         chooseHittingPlayer(randomInd);
+         makeAMove(this.movingPlayer, this.hitPlayer);
+         if ((this.players[0].getHealth() > 0 && this.players[1].getHealth() > 0 )) {
+             Thread.sleep(2000);
+             System.out.println("Press any key to make next move.");
+             scanner.hasNext();
+         } else {
+             System.out.println("Game is over! " + movingPlayer.getName() + " is a winner!");
+             return false;
+         }
+        return true;
+    }
+
+    public void chooseHittingPlayer(int randomIndex) {
+        if (players[0].getMoves() == 0 && players[1].getMoves() == 0) {
+            movingPlayer = this.players[randomIndex];
+            int indOfHitPlayer = 0;
+            if (Arrays.asList(players).indexOf(movingPlayer) == 0) indOfHitPlayer = 1;
+            hitPlayer = players[indOfHitPlayer];
+            System.out.println(movingPlayer.getName() + " makes the first move.");
+        } else {
+            Player temp = movingPlayer;
+            movingPlayer = hitPlayer;
+            hitPlayer = temp;
+            System.out.println("Wait for " + movingPlayer.getName() + "'s move.");
+        }
     }
 
     public int throwDice() {
-        return new Random().nextInt(6) + 1;
+        return returnRandomInt(6) + 1;
     }
 
     public void makeAMove(Player<?> movingPlayer, Player<?> hitPlayer) throws InterruptedException {
@@ -93,5 +89,9 @@ public class Game {
         movingPlayer.setMoves();
         System.out.println(movingPlayer.getName() + " makes " + gotDamage + " of damage to " + hitPlayer.getName()
                 + ".\n " + hitPlayer.getName() + "'s health is " + hitPlayer.getHealth());
+    }
+
+    public int returnRandomInt(int  bound) {
+        return new Random().nextInt(bound);
     }
 }
