@@ -1,10 +1,9 @@
 package com.company.players;
 
-import org.junit.Ignore;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AlienTest {
     Alien alien = new Alien("Tom");
@@ -20,8 +19,4 @@ public class AlienTest {
         assertEquals(alien.weapon.name, "Knife" );
     }
 
-    @Ignore
-    public void testMagicHealing() {
-        //
-    }
 }

@@ -6,12 +6,13 @@ public abstract class Player<T extends Weapon>{
     protected String name;
     protected int health;
     protected T weapon;
-    protected int moves = 0;
-    protected String creature;
+    protected int moves;
+    protected String creatureType;
 
     public Player(String name, int health) {
         this.name = name;
         this.health = health;
+        this.moves = 0;
         setWeapon();
     }
 
@@ -21,7 +22,6 @@ public abstract class Player<T extends Weapon>{
 
     public void setMoves() {
         moves ++;
-        System.out.println(moves);
     }
 
     public int getMoves() {
@@ -32,17 +32,11 @@ public abstract class Player<T extends Weapon>{
         return this.health;
     }
 
-    public T getWeapon() {
-        return weapon;
-    }
-
-    public String getCreature() {
-        return this.creature;
+    public String getCreatureType() {
+        return this.creatureType;
     }
 
     abstract public void setWeapon();
-
-    abstract public void setHealth(int health);
 
     abstract public int getDamage(int damageFromHit);
 

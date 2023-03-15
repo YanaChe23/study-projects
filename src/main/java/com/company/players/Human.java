@@ -15,11 +15,7 @@ public class Human extends Player {
 
     public Human(String name) {
         super(name, 100);
-        this.creature = "Human";
-    }
-    @Override
-    public void setHealth(int health) {
-        this.health = health;
+        this.creatureType = "Human";
     }
 
     @Override
@@ -41,7 +37,7 @@ public class Human extends Player {
     public void setArmour() {
 
         Armour helmet = new Armour("Helmet", 10, 100);
-        Armour  cuffs = new Armour("Cuffs", 5, 100);
+        Armour cuffs = new Armour("Cuffs", 5, 100);
 
         List<Armour> availableArmour = new ArrayList<>();
         availableArmour.add(helmet);
@@ -77,7 +73,7 @@ public class Human extends Player {
             this.armour.forEach(
                     (arm) -> System.out.println(arm.protection  + ": protection level - "  + arm.protection
                             + ", armour damage level: " + arm.levelOfDamage +  ".")
-            );ªª
+            );
         }
 
     }

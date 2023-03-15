@@ -13,22 +13,12 @@ public class Alien extends Player {
 
     public Alien(String name) {
         super(name, 110);
-        this.creature = "Alien";
-    }
-
-    @Override
-    public void setHealth(int health) {
-        this.health = health;
+        this.creatureType = "Alien";
     }
 
     @Override
     public void setWeapon() {
         this.weapon = new Knife();
-    }
-
-    @Override
-    public void makeAMove() {
-        System.out.println("Move");
     }
 
     @Override
