@@ -31,12 +31,11 @@ public class Alien extends Player {
     public int amountOfMadeDamage(){
         return this.weapon.damage;
     }
-
+    // TBD updated logic with health increase
     public void magicHealing() {
         if (this.health < 110) {
             int random = new Random().nextInt();
             if (random  % 2 != 0) {
-                // TODO увеличить на бросок кубика
                 this.health += 6;
             }
         }

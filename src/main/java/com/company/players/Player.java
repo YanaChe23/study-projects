@@ -36,6 +36,7 @@ public abstract class Player<T extends Weapon>{
         return this.creatureType;
     }
 
+    // TBD updated  logic  with a few weapon types
     abstract public void setWeapon();
 
     abstract public int getDamage(int damageFromHit);

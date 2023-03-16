@@ -34,6 +34,7 @@ public class Human extends Player {
       return this.weapon.damage;
     }
 
+    // TBD updated logic with adding armour  pieces
     public void setArmour() {
 
         Armour helmet = new Armour("Helmet", 10, 100);
