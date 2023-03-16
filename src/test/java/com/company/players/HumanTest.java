@@ -20,12 +20,6 @@ public class HumanTest {
         assertEquals(solder.weapon.name, "Knife" );
     }
 
-//    @Test
-//    public void makeAMove() {
-//
-//    }
-
-
     @Test
     public void testProtection() {
         solder.setProtection();

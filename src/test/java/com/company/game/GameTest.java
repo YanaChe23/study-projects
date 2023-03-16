@@ -6,20 +6,44 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
-
     Human human;
     Alien alien;
     Game newGame;
 
     @BeforeEach
-    public void initialTest(){
-        human = new Human("Sam");
-        alien = new Alien("1@3344__2|");
-        newGame = new Game(human, alien);
+    public void initialTest() throws Exception {
+        newGame = new Game();
+        human = new Human("human_test");
+        alien = new Alien("alien_test");
+        newGame.players[0] = human;
+        newGame.players[1] = alien;
+    }
+
+     @Test
+     public void testChooseName() {
+         String result =  newGame.chooseName(Game.Creatures.human, new Scanner("Cat"));
+         assertEquals(result, "Cat");
+     }
+
+    @Test
+    public void testGetNameFromHuman() {
+        String result =  newGame.getNameFromUser(Game.Creatures.human, new Scanner("buzz lightyear"), 1);
+        assertEquals(result, "buzz lightyear");
+    }
+
+    @Test
+    public void testOfferDefaultNameNoDefaultName() {
+        String result = newGame.offerDefaultName(new Scanner("0"),  "defaultName");
+        assertNull(result);
+    }
+
+    @Test
+    public void testOfferDefaultNameYesDefaultName() {
+        String result = newGame.offerDefaultName(new Scanner("1"),  "defaultName");
+        assertEquals(result, "defaultName");
     }
 
     @Test
