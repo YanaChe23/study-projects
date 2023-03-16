@@ -19,11 +19,11 @@ public class Game {
     public Player movingPlayer;
     public Player hitPlayer;
 
-    public void start() throws Exception {
-        greetings(new Scanner(System.in));
+    public void start(Scanner scanner) throws Exception {
+        greetings(scanner);
         System.out.println("It's time to give names to our players.");
-        players[0] = new Human(chooseName(Creatures.human));
-        players[1] = new Alien(chooseName(Creatures.alien));
+        players[0] = new Human(chooseName(Creatures.human, new Scanner(System.in)));
+        players[1] = new Alien(chooseName(Creatures.alien, new Scanner(System.in)));
         while(true) {
             boolean ifStop = play(new Scanner(System.in));
             if (ifStop == false) {
@@ -39,64 +39,66 @@ public class Game {
         scanner.hasNext();
     }
 
-    public String chooseName(Creatures creatureType) {
+    public String chooseName(Creatures creatureType, Scanner scanner) {
         String playerName = null;
         int getNameCounter = 0;
         while(playerName == null) {
             getNameCounter++;
-            playerName = getNameFromUser(creatureType, new Scanner(System.in), getNameCounter);
+            playerName = getNameFromUser(creatureType, scanner,  getNameCounter);
         }
+        System.out.println(playerName + " is a name of the player from " + creatureType + "'s side." );
         return playerName;
     }
 
     public String getNameFromUser(Creatures creatureType, Scanner scanner, int counter) {
-        String name = null;
+        String name;
         String defaultName = "Killer 3000";
 
             switch(creatureType) {
                 case human:
                     System.out.println("Type in a name for an human player:");
-                    defaultName = "Agent K";
+                    defaultName = "Chip Hazard";
                     break;
 
                 case alien:
                     System.out.println("Now, type in a name for a alien player:");
-                    defaultName = "Jack Jeebs";
+                    defaultName = "Gorgonite";
                     break;
             }
 
             String userInputName = scanner.nextLine();
             if(userInputName.isEmpty()) {
-                System.out.println("You haven 't provided a name. If you want me to set up a default name, press 1." +
-                        " To offer a name  for  player, press  0");
-                while(true) {
-                    if (scanner.hasNextInt()) {
-                        int userInputNum = scanner.nextInt();
-                        if (userInputNum  == 0) {
-                            break;
-                        } else if (userInputNum == 1) {
-                            name = defaultName;
-                            break;
-                        } else {
-                            System.out.println("Press 1 if you want to set default name for the player. Press 0 if you" +
-                                    " want to type a name.");
-                        }
-                    }  else {
-                        System.out.println("Press 1 if you want to set default name for the player. Press 0 if you" +
-                                " want to type a name.");
-                    }
-                }
+                name = offerDefaultName(new Scanner(System.in), defaultName);
             } else {
                 name = userInputName;
             }
-
             if(name == null && counter > 5) {
                 System.out.println("Choosing a name is not so easy. But no worries, I will use a default name for the " +
                         "player to continue the game.");
                 name = defaultName;
             }
-        System.out.println(name +  " is a name of the player from " + creatureType + "'s side." );
         return name;
+    }
+
+    public String offerDefaultName(Scanner scanner, String defaultName) {
+        System.out.println("You haven 't provided a name. If you want me to set up a default name, press 1." +
+                " To offer a name  for  player, press  0");
+        while(true) {
+            if (scanner.hasNextInt()) {
+                int userInputNum = scanner.nextInt();
+                if (userInputNum  == 0) {
+                    return null;
+                } else if (userInputNum == 1) {
+                    return defaultName;
+                } else {
+                    System.out.println("Press 1 if you want to set default name for the player. Press 0 if you" +
+                            " want to type a name.");
+                }
+            }  else {
+                System.out.println("Press 1 if you want to set default name for the player. Press 0 if you" +
+                        " want to type a name.");
+            }
+        }
     }
 
     protected boolean play(Scanner scanner) throws InterruptedException {
