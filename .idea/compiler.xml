@@ -9,7 +9,7 @@
         <module name="Alience2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11">
+    <bytecodeTargetLevel>
       <module name="Alience2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
